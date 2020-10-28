@@ -1,0 +1,17 @@
+{
+  "name": "todo-test",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://DixitVora@bitbucket.org/DixitVora/todo-test.git",
+  "author": "Dixit Vora <dixit.vora@foodvybe.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "scripts": {
+    "dev": "nodemon ."
+  }
+}
