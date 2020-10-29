@@ -1,11 +1,16 @@
 const express = require('express');
+const dbConnect = require('./mongodb/mongoConnect');
+const route = require('./routes/todoRoutes');
 
 const app = express();
 
+app.use(express.json());
+app.use('/todos', route);
 app.get('/', (req, res) => {
   return res.json({ message: 'Hello World!!!!!!' });
 });
 
-app.listen(3000, () => {
-  console.log(`server is running on the port 3000...`);
-});
+// db connection
+dbConnect();
+
+module.exports = app;
