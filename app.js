@@ -10,6 +10,9 @@ app.get('/', (req, res) => {
   return res.json({ message: 'Hello World!!!!!!' });
 });
 
+app.use((error, req, res, next) => {
+  res.status(500).json({ message: error.message });
+});
 // db connection
 dbConnect();
 
