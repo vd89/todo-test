@@ -5,6 +5,13 @@ const endPointUrl = '/todos';
 const newTodo = require('../mock-data/new-todo.json');
 
 describe(endPointUrl, () => {
+  test('GET' + endPointUrl, async () => {
+    const response = await request(app).get(endPointUrl);
+    expect(response.statusCode).toBe(200);
+    expect(Array.isArray(response.body)).toBeTruthy();
+    expect(response.body[0].title).toBeDefined();
+    expect(response.body[0].done).toBeDefined();
+  });
   it('POST ' + endPointUrl, async () => {
     const response = await request(app).post(endPointUrl).send(newTodo);
     expect(response.statusCode).toBe(201);

@@ -29,6 +29,13 @@ describe('TodoController.getTodos', () => {
     expect(res._isEndCalled()).toBeTruthy();
     expect(res._getJSONData()).toStrictEqual(allTodo);
   });
+  it('should handle error in getTodos', async () => {
+    const errorMessage = { message: 'Error Finding' };
+    const rejectedPromise = Promise.reject(errorMessage);
+    TodoModel.find.mockReturnValue(rejectedPromise);
+    await TodoController.getTodos(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
 });
 
 describe('TodoController.createTodo', () => {
