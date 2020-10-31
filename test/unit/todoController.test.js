@@ -6,6 +6,7 @@ const allTodo = require('../mock-data/all-todos.json');
 
 TodoModel.create = jest.fn();
 TodoModel.find = jest.fn();
+TodoModel.findById = jest.fn();
 
 let req, res, next;
 beforeEach(() => {
@@ -14,6 +15,34 @@ beforeEach(() => {
   next = jest.fn();
 });
 
+// GET request to get single todo by id
+
+describe('TodoController.getTodoById', () => {
+  it('should have a getTodoById', () => {
+    expect(typeof TodoController.getTodoById).toBe('function');
+  });
+  it('should call TodoModel.findById with route parameter', async () => {
+    req.params.todoId = '5f9ac5057db8c8fb4bc177bd';
+    await TodoController.getTodoById(req, res, next);
+    expect(TodoModel.findById).toBeCalledWith('5f9ac5057db8c8fb4bc177bd');
+  });
+  it('should return response code 200 and body with json', async () => {
+    TodoModel.findById.mockReturnValue(newTodo);
+    await TodoController.getTodoById(req, res, next);
+    expect(res.statusCode).toBe(200);
+    expect(res._isEndCalled()).toBeTruthy();
+    expect(res._getJSONData()).toStrictEqual(newTodo);
+  });
+  it('should do error handling', async () => {
+    const errorMessage = { message: 'error finding todoModel' };
+    const rejectedPromise = Promise.reject(errorMessage);
+    TodoModel.findById.mockReturnValue(rejectedPromise);
+    await TodoController.getTodoById(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
+});
+
+// GET request to get all the todos
 describe('TodoController.getTodos', () => {
   it('should have a getTodos function ', () => {
     expect(typeof TodoController.getTodos).toBe('function');
@@ -38,6 +67,7 @@ describe('TodoController.getTodos', () => {
   });
 });
 
+// POST request to create TODO
 describe('TodoController.createTodo', () => {
   beforeEach(() => {
     req.body = newTodo;

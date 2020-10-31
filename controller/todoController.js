@@ -17,4 +17,12 @@ module.exports = {
       next(err);
     }
   },
+  getTodoById: async (req, res, next) => {
+    try {
+      const singleTodo = await TodoModel.findById(req.params.todoId);
+      res.status(200).json(singleTodo);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
