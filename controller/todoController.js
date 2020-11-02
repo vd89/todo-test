@@ -12,7 +12,7 @@ module.exports = {
   getTodos: async (req, res, next) => {
     try {
       const allTodos = await TodoModel.find({});
-      res.status(200).json(allTodos);
+      return res.status(200).json(allTodos);
     } catch (err) {
       next(err);
     }
@@ -20,7 +20,11 @@ module.exports = {
   getTodoById: async (req, res, next) => {
     try {
       const singleTodo = await TodoModel.findById(req.params.todoId);
-      res.status(200).json(singleTodo);
+      if (singleTodo) {
+        return res.status(200).json(singleTodo);
+      } else {
+        return res.status(404).send();
+      }
     } catch (err) {
       next(err);
     }
