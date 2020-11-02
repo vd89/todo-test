@@ -44,4 +44,16 @@ module.exports = {
       next(err);
     }
   },
+  deleteTodo: async (req, res, next) => {
+    try {
+      const deletedTodo = await TodoModel.findByIdAndDelete(req.params.todoId);
+      if (deletedTodo) {
+        return res.status(200).json(deletedTodo);
+      } else {
+        return res.status(404).send();
+      }
+    } catch (err) {
+      next(err);
+    }
+  },
 };
