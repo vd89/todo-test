@@ -29,4 +29,19 @@ module.exports = {
       next(err);
     }
   },
+  updatedTodo: async (req, res, next) => {
+    try {
+      const updateTodo = await TodoModel.findByIdAndUpdate(req.params.todoId, req.body, {
+        new: true,
+        useFindAndModify: false,
+      });
+      if (updateTodo) {
+        return res.status(200).json(updateTodo);
+      } else {
+        return res.status(404).send();
+      }
+    } catch (err) {
+      next(err);
+    }
+  },
 };
